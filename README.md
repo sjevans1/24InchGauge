@@ -12,6 +12,8 @@ The repository currently contains the product specification and delivery plan. I
 
 Read the [Master Development Blueprint](docs/MASTER_DEVELOPMENT_BLUEPRINT.md) for confirmed requirements, proposed architecture, workflows, access rules, cost assumptions, milestones and acceptance criteria.
 
+The [Public Template Source Register](docs/PUBLIC_TEMPLATE_SOURCE_REGISTER.md) records the summons and administrative sources found online, their limits, and the remaining template-validation gaps.
+
 ## Product principles
 
 - Record an event once, then prepare the related records, documents and tasks.
