@@ -12,11 +12,12 @@ The repository currently contains the product specification and delivery plan. I
 
 Read the [Master Development Blueprint](docs/MASTER_DEVELOPMENT_BLUEPRINT.md) for confirmed requirements, proposed architecture, workflows, access rules, cost assumptions, milestones and acceptance criteria.
 
-The [Public Template Source Register](docs/PUBLIC_TEMPLATE_SOURCE_REGISTER.md) records the summons and administrative sources found online, their limits, and the remaining template-validation gaps.
+The [Public Template Source Register](docs/PUBLIC_TEMPLATE_SOURCE_REGISTER.md) records the summons and administrative sources found online, their limits, and later procedural checks.
 
 ## Product principles
 
 - Record an event once, then prepare the related records, documents and tasks.
+- Let each lodge upload its logo and create branded summons, agendas and minutes from built-in designs and its records; no existing template is required.
 - Distinguish a planned ceremony from a ceremony confirmed as performed.
 - Preserve issued documents and approved records; corrections create an auditable amendment.
 - Give each member access appropriate to the lodge, office and individual record.
@@ -27,7 +28,7 @@ The [Public Template Source Register](docs/PUBLIC_TEMPLATE_SOURCE_REGISTER.md) r
 
 ## Next implementation milestone
 
-M1: authenticated users, separate lodge workspaces, dated office permissions, constitution configuration, membership directory and complimentary subscription entitlements. The first connected workflow then takes a scheduled ceremony through confirmation, degree history, draft minutes and mentoring follow-up.
+M1: authenticated users, separate lodge workspaces, logo and branding setup, dated office permissions, constitution configuration, membership directory and complimentary subscription entitlements. M2 adds the document designer and branded summons generation, then takes a scheduled ceremony through confirmation, degree history, draft minutes and mentoring follow-up.
 
 ## Source and operational data
 
