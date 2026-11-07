@@ -1,6 +1,6 @@
 # 24 Inch Gauge — Master Development Blueprint
 
-Version: 0.1  
+Version: 0.2  
 Prepared: 7 November 2026, Jamaica  
 Repository: https://github.com/sjevans1/24InchGauge  
 Status: implementation specification; no application has yet been built or deployed.
@@ -21,9 +21,10 @@ The first column below records the user's direction. Implementation choices in t
 
 | Area | Confirmed direction | Proposed implementation default |
 | --- | --- | --- |
-| Constitutions | Focus on English; provide for all three active constitutions | Versioned constitution profiles and lodge-level settings; validate each profile against supplied forms and procedures before claiming support |
+| Constitutions | Focus on English; provide for all three active constitutions | Versioned constitution profiles and lodge-level settings; validate procedural rules independently of visual layout before claiming constitutional compliance |
 | Users | Every member may log in; officers are the primary users | One account with separately authorised lodge memberships and a lodge switcher |
 | Administration | All discussed functions and further related work; reduce duplicate forms | Linked member, meeting, ceremony, document, task and notification records |
+| Lodge customization | Each lodge can upload its logo and customize generated summons and other documents; no existing template is required | Guided branding setup, built-in starter layouts, configurable sections, automatic field population and live preview |
 | Finances | Comprehensive tracking is desirable; current Treasurer's tools are unknown | Simple officer interface over a balanced ledger, phased financial features and reconciled opening balances |
 | Payments | No member payment processing; only the subscribing lodge pays for the software | Lodge dues are recorded from external payments; a separate service-billing module handles subscriptions |
 | Complimentary access | No fees initially for the founder and Kingston Lodge No. 1933 | Audited complimentary grant with no payment method required; no automatic conversion into a charge |
@@ -55,7 +56,7 @@ Officers see actions requiring attention: incomplete meeting preparation, pendin
 | Membership | Member records, contacts, status, joining/affiliation history, degree history, office and rank history, invitations, emergency contacts |
 | Candidates and progression | Enquiry/application tracking, configurable prerequisites, ceremony scheduling, performed-event confirmation, mentor assignment and follow-up |
 | Meetings | Calendar, agenda, summons, RSVPs, attendance, visitors, office service, ritual assignments, dining counts and minutes |
-| Documents and forms | Versioned templates, field mapping, draft generation, approvals, issued snapshots, document archive and controlled amendments |
+| Documents and forms | Lodge branding, document designer, built-in layouts, configurable sections, field mapping, versioned templates, draft generation, approvals, issued snapshots, document archive and controlled amendments |
 | Tasks and mentoring | Assigned actions, due dates, reminders, mentee-module requests and completion evidence |
 | Finance | Dues, receipts, arrears, cashbook, fund accounting, budgets, expenses, approvals, bank reconciliation and period/year reports |
 | Property | Movable inventory, photographs, condition, value, custody, loans, returns, stocktakes and disposal approvals |
@@ -78,7 +79,7 @@ The application must distinguish the planned event, the fact that the ceremony o
 | Issue | Summons is issued | Save the exact rendered version and recipient snapshot; later changes cannot silently rewrite this version |
 | Defer or cancel | Secretary records a change before performance | Keep the brother's degree as EA; update draft work, cancel obsolete pending actions and prepare any required correction notice for review |
 | Confirm performed | Secretary records actual performance, date, meeting and participants | Atomically add degree-history event, update current status to FC, record ritual work, create draft minutes content and create applicable mentoring/request tasks |
-| Follow through | Mentor/Secretary completes the required follow-up | Pre-fill the approved mentee-module request template; track whether it is draft, approved, sent or acknowledged as applicable |
+| Follow through | Mentor/Secretary completes the required follow-up | Prepare the lodge-designed mentoring request/checklist; use a verified external form only when configured; track draft, approval, submission and acknowledgement as applicable |
 | Approve minutes | Lodge's configured approval process completes | Preserve approved minutes as a fixed version; retain links to the underlying events |
 | Correct | An authorised officer records an error and reason | Preserve the original event; create an audited correction, recalculate affected projections and require review of consequential document changes |
 
@@ -88,7 +89,7 @@ Important details:
 - A draft may refresh from changed facts, but manual edits must be preserved or shown in a reviewable comparison. Do not overwrite edited paragraphs without warning.
 - Issued summons and approved minutes keep their historical wording. Future documents use the appropriate effective-date information.
 - Confirmation must be an explicit action by an authorised officer. Approval of minutes is a separate status; a later correction must reconcile the event and written record.
-- The exact timing and contents of a mentee-module request depend on the lodge's actual form and process. Do not assume it must always be sent after the ceremony.
+- The timing and contents of a mentee-module request are configured for the lodge's process. An uploaded form is optional for internal requests and checklists; a prescribed external submission must match the receiving body's requirements. Do not assume a request must always be sent after the ceremony.
 - Retrying a confirmation, processing a job twice or receiving duplicate requests must not create duplicate degree changes, tasks or notices.
 - A record held by another lodge is not silently updated. Cross-lodge degree evidence requires an explicit, authorised verification process.
 - Historical imports use an import workflow and do not send retrospective notices.
@@ -97,13 +98,48 @@ The same pattern extends to initiation, raising, affiliation, resignation, death
 
 ## 5. Constitution profiles and configurable forms
 
-Use an explicit profile for constitution, jurisdiction/district, lodge terminology, offices, meeting calendar, document templates, return templates and applicable procedural checks. Save the profile/template version used for each issued document or significant event.
+Use an explicit profile for constitution, governing body and jurisdiction, lodge terminology, offices, meeting calendar, document templates, return templates and applicable procedural checks. Keep constitution, order and governing-body level separate. Save the profile, branding and template versions used for each issued document or significant event.
 
-English is the initial validated profile. Scottish and Irish are first-class configuration targets, with test fixtures and separately validated templates before release. Do not hard-code an unverified waiting period, degree prerequisite, ballot rule, governing-body return or approval threshold. Administrators may configure approved local requirements; changes to sensitive workflow rules are audited.
+English is the first profile targeted for procedural validation; none is already validated by this specification. Scottish and Irish are first-class configuration targets. All three can use the shared document designer without uploading an existing summons. A lodge can adopt its document layout without the platform claiming constitutional approval. Do not hard-code an unverified waiting period, degree prerequisite, ballot rule, governing-body return or approval threshold. Administrators may configure approved local requirements; changes to sensitive workflow rules are audited.
 
 Candidate, EA, FC and MM are useful initial Craft concepts. Degree, rank, office held and membership status must be separate fields/history streams. Honorary, resigned, deceased or suspended statuses must not be inferred from arrears alone.
 
 Chapters and other Orders are future extensions unless explicitly added to the release scope. Accommodating three Craft constitutions does not by itself constitute support for every Order.
+
+### 5.1 Lodge branding and document design
+
+**Product decision: an existing summons, minutes document or design template is not an onboarding or M2 prerequisite.** Each lodge starts with built-in designs and can generate its own branded documents. An old document may be used as an optional reference later; automatic recreation from an uploaded PDF or Word file is outside the initial designer scope.
+
+The setup and daily-use flow is:
+
+| Step | Lodge action | Application behaviour |
+| --- | --- | --- |
+| Identity | Enter lodge name, number, constitution, governing body, address and meeting venue | Reuse the lodge profile throughout documents; do not infer these facts from a logo |
+| Branding | Upload a logo or crest; set colours, header/footer text and preferred style | Fit the artwork without distortion and create a branded starter design; provide readable defaults and a text header if no artwork is uploaded |
+| Layout | Start with the recommended design or choose a traditional or compact style | Automatically arrange the header, body, officer details and footer; offer print-friendly A4 and Letter output |
+| Sections | Select and reorder permitted sections; adjust headings and standard wording | Use structured blocks for meeting notice, agenda, ceremony/candidate items, officers, correspondence, dining, notices and optional personal dues inserts |
+| Preview and save | Review sample or real permitted data; save as the lodge default | Show page breaks, missing fields and draft status; save a new lodge-scoped template version |
+| Prepare a meeting | Select meeting type, date, agenda and planned work | Fill the saved design from meeting and member records; let the Secretary review and issue the resulting summons |
+
+The generated design must be usable immediately with the entered information. Customization should be optional refinement, not a requirement to build a document from a blank page. Start with a block editor and constrained styles rather than a general desktop-publishing canvas.
+
+Allow separate defaults for regular, installation and other configured meeting types. Reuse the same branding for agendas, minutes, lodge correspondence, internal mentoring requests and, as their modules arrive, statements and receipts. Branding does not make a generated document an accepted official return.
+
+The Secretary or an expressly delegated lodge administrator can manage branding and templates. General members view documents allowed by their access; they cannot change the lodge's design. Branding, files, templates and previews remain tenant-scoped.
+
+### 5.2 Reliable generation and customization boundaries
+
+- Bind factual fields to records: lodge identity, meeting details, relevant officeholders, member names, confirmed degree history and permitted balances. Offer field selectors so officers need not type merge codes or repeatedly enter the same information.
+- Keep standard wording and meeting-specific narrative editable. Preserve manual changes when refreshing a draft; display conflicts for review.
+- Separate planned work in the summons from confirmed work in minutes. Do not advance a degree because a document was generated.
+- Preview the intended audience. A general summons must not acquire a member's personal balance; an optional personalized insert is generated only for that recipient and uses a dated financial snapshot.
+- Required fields for issuance include the lodge identity, meeting date/time and venue. Additional required content comes from an explicitly configured policy. Missing facts are highlighted; the application does not invent names, dates, procedural text or eligibility.
+- Where a verified procedural profile requires a section or wording, explain the requirement and prevent an ordinary visual edit from removing it. Rule changes use separate authorised settings. Cosmetic approval and procedural validation have separate statuses.
+- Version branding assets as well as layouts. New logos, colours or officeholders affect new drafts; issued files and their recipient variants retain their original content and remain downloadable.
+- Validate and decode uploaded images, constrain file size and dimensions, and store them privately. Start with PNG/JPEG artwork; use a placeholder if no image is supplied. Avoid accepting executable markup as a document-design mechanism.
+- Use the same content and layout definitions for preview and final PDF. Test long names, long agendas, multi-page documents, image scaling, headers/footers, page numbering and monochrome printing. PDF is the fixed issued copy; a Word export is an editable derivative and cannot overwrite that issued record.
+- Routine layout and field population must work without an AI service. Optional later assistance can suggest wording or styles for review, with separate usage limits; it must not supply invented meeting facts or procedural rules.
+
 
 ## 6. Access model and officer handover
 
@@ -186,7 +222,7 @@ Historical financial entries require a reconciled strategy: full transaction imp
 
 ## 10. Documents, notifications and reports
 
-Documents use authoritative data plus versioned templates, with controlled narrative sections. Provide preview, missing-field validation and clear draft/issued/approved labels. Support printable PDF and editable Word where the template requires it; structured reports should also export to CSV/Excel.
+Documents use authoritative data plus the lodge's versioned design and branding settings, with controlled narrative sections. Built-in layouts provide a complete starting point; no supplied template is required. Provide preview, missing-field validation and clear draft/issued/approved labels. Support printable PDF and editable Word for suitable document types; structured reports should also export to CSV/Excel. See sections 5.1–5.2 for the document designer.
 
 Reports use historical effective dates where needed and disclose coverage gaps. Attendance deduplicates explicit presence and actual service in office; an advance appointment alone is not proof of presence. Track visitors separately. Ritual-work reports include degree, piece, performer, meeting and date. Past Master engagement reports distinguish attendance, mentoring, committees, charity and other contributions.
 
@@ -226,9 +262,9 @@ Core entities:
 
 | Group | Entities |
 | --- | --- |
-| Identity and configuration | User, Lodge, Membership, ConstitutionProfileVersion, RoleAssignment, Invitation, Subscription, ModuleEntitlement |
+| Identity and configuration | User, Lodge, LodgeBrandingVersion, BrandAsset, Membership, ConstitutionProfileVersion, RoleAssignment, Invitation, Subscription, ModuleEntitlement |
 | Administration | MemberProfile, MembershipStatusEvent, DegreeEvent, OfficeHistory, Meeting, AgendaItem, Ceremony, Attendance, RitualAssignment |
-| Workflow and documents | WorkflowEvent, Task, MentorAssignment, FormRequest, TemplateVersion, DocumentVersion, Approval, DeliveryOutbox |
+| Workflow and documents | WorkflowEvent, Task, MentorAssignment, FormRequest, DocumentTemplate, TemplateVersion, DocumentVersion, Approval, DeliveryOutbox |
 | Finance | Account, Fund, FinancialPeriod, Assessment, Receipt, Allocation, Journal, JournalLine, Expense, Budget, BankImport, Reconciliation |
 | Property and welfare | Asset, AssetPhoto, Valuation, CustodyEvent, Stocktake, WelfareCase, WelfareAction |
 | Evidence and operations | SourceFile, ImportBatch, ImportException, AuditEvent, Notification, SupportAccessGrant |
@@ -285,15 +321,15 @@ Load-test a representative data set with 20,000 synthetic members, increasing co
 | Milestone | Deliverables | Acceptance gate |
 | --- | --- | --- |
 | M0 — Specification | This blueprint, requirement traceability, workflow and access model, source repository | Confirmed requirements separated from defaults; implementation status honest |
-| M1 — Core workspace | Authentication, lodge setup/switching, roles/offices, constitution settings, member directory, complimentary entitlements and audit history | Cross-lodge and record-level access tests; revocation works; no fees required for pilot |
-| M2 — Connected administration | Meetings, attendance, ceremonies, degree history, template/document versions, tasks and mentoring form drafts | Complete EA-to-FC scenario, cancellation, retries and correction without rewriting issued records |
+| M1 — Core workspace | Authentication, lodge setup/switching, identity and logo/branding settings, roles/offices, constitution settings, member directory, complimentary entitlements and audit history | Cross-lodge and record-level access tests include brand assets; revocation works; no fees or existing document required for pilot |
+| M2 — Connected administration | Meetings, attendance, ceremonies, degree history, lodge document designer and starter layouts, template/document versions, tasks and mentoring form drafts | Create a branded summons without uploading a template; complete EA-to-FC scenario, cancellation, retries and correction without rewriting issued records |
 | M3 — Finances and property | Ledger, dues, external-payment records, expenses, accounts/funds, reconciliation, asset custody and reporting | Financial totals reconcile; posting/approvals enforced; custody history retained |
 | M4 — Migration and communication | Excel/Word/PDF archive and staged imports, notification outbox, email, optional WhatsApp adapter, engagement reports and return templates | Four-to-five-year sample migration reconciles; no unintended historical messages; document/form accuracy reviewed |
 | M5 — Pilot and commercial readiness | Officer/member usability, restore rehearsal, monitoring, performance, subscription provider and operational handover | Real-user pilot sign-off; payment eligibility/setup settled before paid activation; load and restore evidence retained |
 
 Stages can overlap where dependencies allow, but later feature breadth must not substitute for proven tenant isolation, data consistency or accurate financial totals. No launch date has been committed.
 
-The first integrated demonstration should use synthetic data to show a Secretary planning and confirming a passing; a member seeing his resulting permitted information; a mentor receiving the correct task; an issued summons remaining unchanged; and a second lodge being unable to access any of those records.
+The first integrated demonstration should use synthetic data to show a Secretary setting up lodge branding without an existing document, generating a summons, planning and confirming a passing; a member seeing his resulting permitted information; a mentor receiving the correct task; an issued summons remaining unchanged after a logo or member-record change; and a second lodge being unable to access any of those records or brand assets.
 
 ## 14. Required acceptance scenarios
 
@@ -311,28 +347,32 @@ The first integrated demonstration should use synthetic data to show a Secretary
 12. Asset issue and return preserve custodian, time and condition history; a different lodge cannot receive a linked custody record accidentally.
 13. Historical imports detect duplicates and ambiguous names, show source evidence, reconcile totals and avoid live workflow notifications by default.
 14. Attendance deduplicates explicit attendance and confirmed service in office; planned office assignments do not count as attendance.
-15. Constitution-specific templates preserve their versions; no Scottish or Irish profile is labelled validated until its acceptance examples pass.
+15. Constitution-specific templates preserve their versions; no English, Scottish or Irish profile is labelled procedurally validated until its acceptance examples pass. Lodge approval of a visual design does not imply constitutional certification.
 16. Background retries do not duplicate internal events; external-delivery ambiguity is surfaced for reconciliation.
 17. Backup restoration recovers tenant records and their file references; the application checks for missing objects and permissions before reopening access.
 18. Mobile layouts work on iPhone Safari and Android browsers; critical forms remain usable with a keyboard and clear validation.
 19. Performance testing records measured capacity and cost drivers; no “20,000 users supported” claim is based only on account counts or provider allowances.
+20. A new lodge can enter its identity, optionally upload a logo, choose a built-in layout and generate a complete preview and PDF summons without uploading any existing template or invoking an AI service.
+21. Template changes affect only the intended lodge and future drafts. Switching lodges changes branding; a cross-lodge asset or template reference is rejected. Previously issued PDF files remain unchanged.
+22. Long agendas and names paginate without clipping; missing artwork uses a text header. Member preview/export and personal dues inserts enforce recipient-specific access and never expose another member's balance.
+23. A saved design reuses records across summons, agendas and draft minutes while retaining narrative edits. Missing issuance fields are flagged, and required configured sections cannot be removed through cosmetic customization.
 
 ## 15. Inputs needed during implementation
 
-No further broad questionnaire is needed to begin the core workspace. The following inputs are needed at the named gates:
+No further broad questionnaire or supplied document template is needed to begin the core workspace and document designer. Branding and ordinary document wording are configured by each lodge during use. The following items are optional preferences or inputs to later operational gates:
 
 | Input | Needed for | Can work proceed before receipt? |
 | --- | --- | --- |
-| Blank/redacted summons, agenda and minutes examples | Accurate M2 templates | Yes, using clearly marked generic drafts |
-| Actual mentee-module request form and its timing/approval route | M2 mentoring workflow | Yes, keeping the form adapter unvalidated |
-| Equivalent Scottish and Irish forms/procedures | Validated support for those profiles | Yes, build shared configurable structure first |
+| Lodge identity, optional logo and style preferences | Lodge onboarding and branded document generation | Yes, use synthetic identity and built-in designs; no existing summons, agenda or minutes template is required |
+| Receiving body's prescribed form and submission route, if applicable | An externally accepted mentoring request or official return | Yes, internal mentoring tasks and lodge-designed documents work independently; validate external submission separately |
+| Verified procedures for each constitution and governing body | Claims of procedural compliance and activation of enforced rules | Yes, all three use the shared designer; external templates are not a visual-design prerequisite |
 | Treasurer's current records and agreed financial structure | Production finance setup and opening-balance migration | Yes, use synthetic balanced examples |
 | Redacted representative Excel/Word/PDF samples | Import mapping and reconciliation | Yes, build import staging and validation framework |
 | Business owner/entity, subscription prices and merchant details | Paid subscription activation | Yes, use complimentary entitlement path and provider abstraction |
 | Approved sender/domain and provider credentials | Actual outbound email/WhatsApp | Yes, use in-app notifications and a non-sending development outbox |
 | Hosting budget/account choice and data-storage requirements | Production provisioning | Yes, keep local and test configuration separate from live deployment |
 
-Avoid putting member data, original private documents or credentials in GitHub issues or this public repository. Template examples used for development should be blank or redacted.
+Avoid putting member data, original private documents, lodge-uploaded assets or credentials in GitHub issues or this public repository. Use synthetic branding and records for development; optional reference examples must be blank or redacted.
 
 ## 16. Sources and interpretation
 
