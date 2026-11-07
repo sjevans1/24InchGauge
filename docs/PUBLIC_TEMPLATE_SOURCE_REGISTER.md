@@ -10,6 +10,10 @@ Useful material found includes photographed summons extracts in a local Mark sec
 
 These are reference sources for product design. Publication online does not establish current approval, grant reuse rights, or make historical instructions current. None is an approved Kingston Craft template.
 
+## Product decision after research
+
+Each lodge will configure its branding and generate documents from built-in layouts and its own records. Existing summons, minutes and design templates are optional references, not prerequisites for onboarding or implementation. See [Master Development Blueprint, sections 5.1–5.2](MASTER_DEVELOPMENT_BLUEPRINT.md#51-lodge-branding-and-document-design). The research below informs optional design choices and later procedural checks; it does not establish a requirement for the founder or any lodge to supply a template.
+
 ## Sources with document content
 
 ### S1 — Local Mark secretaries' seminar, 31 October 2015
@@ -70,11 +74,10 @@ The Scottish District website also returned an availability error during researc
 5. Record each template's source, applicable lodge/order, revision, review status and approval. Separate visual design from enforceable procedural rules.
 6. Use synthetic names and figures during development. Do not copy real candidate details, welfare reports, member balances or signatures into the public repository.
 
-## Remaining validation
+## Research gaps and later procedural checks
 
-- A complete Kingston No. 1933 summons and corresponding minutes, with a known issue date.
-- A local Scottish Craft lodge summons and a local Irish Craft lodge summons.
-- The exact local mentee-module request form and its submission workflow.
-- Current constitutional and local approval requirements for each supported profile.
+- Kingston, individual Scottish Craft and local Irish Craft summons were not recovered. Such examples remain optional comparison material; the application will create its own configurable designs.
+- No exact local mentee-module request form was recovered. Internal requests and mentoring tasks can use the lodge's designer. Any prescribed external form must be checked against the receiving body's requirements before claiming it is accepted.
+- Current constitutional and local procedural requirements remain to be checked separately for each profile. Approval of a visual layout is not constitutional validation.
 
-Generic document tooling can proceed while these gaps remain. No template should be labelled constitutionally validated until its applicable source and reviewer are recorded.
+The absence of existing documents does not block branded summons, agendas or minutes. No procedural profile should be labelled validated until its applicable evidence and review are recorded.
