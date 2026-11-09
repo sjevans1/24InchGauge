@@ -1,0 +1,3 @@
+PDFs embed subsets of DejaVu Serif and DejaVu Serif Bold (system DejaVu 2.37) rather than relying on viewer font substitution. The subsets are encoded in `lib/pdf-fonts.ts` for the Worker bundle.
+
+Generated with fonttools `pyftsubset`, retaining Unicode ranges `U+0000-024F,U+0370-04FF,U+1E00-1EFF,U+2000-206F,U+20A0-20CF,U+2190-21FF` and all layout features. Both files retain their DejaVu names. The Bitstream Vera licence and DejaVu public-domain notice are retained in LICENSE.txt. Characters not present in the subset are visibly replaced with `?`; use Latin-alphabet lodge records in this pilot.

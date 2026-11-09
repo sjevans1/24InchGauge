@@ -1,9 +1,11 @@
 # 24 Inch Gauge — Master Development Blueprint
 
-Version: 0.2  
+Version: 0.3  
 Prepared: 7 November 2026, Jamaica  
 Repository: https://github.com/sjevans1/24InchGauge  
-Status: implementation specification; no application has yet been built or deployed.
+Status: product blueprint with an implemented first pilot. The full roadmap below is not a list of completed features. See [Pilot status and acceptance](PILOT_STATUS.md) for implemented coverage, verification and remaining work.
+
+Implementation note (9 November 2026): the pilot uses React/TypeScript with Vinext on a Cloudflare Worker, D1 and R2, with hosting-platform authentication. Independent customer authentication, subscription billing and module entitlements are not yet implemented. The original architectural recommendations and provider-cost references below remain planning material.
 
 ## 1. Purpose and product outcome
 
