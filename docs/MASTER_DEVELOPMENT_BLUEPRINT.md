@@ -39,7 +39,7 @@ The first column below records the user's direction. Implementation choices in t
 | Cost and scale | Least practical cost, affordable growth; approximately 20,000 active users | Serverless application with monitored database, file and messaging usage; load tests before scale claims |
 | Brand and ownership | Repository selected as 24InchGauge | Use “24 Inch Gauge” as working name; commercial entity and licence remain undecided |
 
-Previously discussed Kingston requirements should be configurable defaults: February–January lodge year, August and September recess, attendance recognised when a brother serves in office even if omitted from the separate attendance list, and reporting on ritual work and Past Master engagement. The financial year is a separate setting and must not be assumed to match the lodge year.
+Previously discussed Kingston requirements should be configurable defaults: February–January lodge year, September and October recess, attendance recognised when a brother serves in office even if omitted from the separate attendance list, and reporting on ritual work and Past Master engagement. The financial year is a separate setting and must not be assumed to match the lodge year.
 
 ## 3. User experience and module boundaries
 

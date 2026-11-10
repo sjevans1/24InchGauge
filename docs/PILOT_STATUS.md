@@ -20,7 +20,7 @@ This is the first operational pilot of 24 Inch Gauge. It implements selected fou
 | Commercial service | Separate tenant workspaces, complimentary pilot designation, no fees or member payments                                                  | Plan catalog, module entitlement enforcement, audited complimentary grants, paid checkout, webhooks and subscription lifecycle                          |
 | Operations         | Schema migrations, durable D1/R2 records, source control, JSON/CSV metadata exports                                                      | Complete file-inclusive backups, tested restore, monitoring, retention policy, stronger upload validation, load testing and operational security review |
 
-English, Scottish and Irish are selectable identity settings. This is not a claim of verified procedural compliance across constitutions. Kingston's February–January lodge year and August/September recess are in the blueprint but are not yet reporting/calendar rules in the application.
+English, Scottish and Irish are selectable identity settings. This is not a claim of verified procedural compliance across constitutions. Kingston's calendar defaults to the first Wednesday, 19:00, with September/October recess and February Installation. Calendar settings are configurable; February–January reporting periods remain planned.
 
 ## Start the pilot
 
@@ -62,3 +62,10 @@ Ledger posting is a record-keeping function, not payment processing or a complet
 4. Complete financial opening balances, reconciliation, approvals, reporting and staged historical imports.
 5. Validate the three constitution profiles; add communications and the commercial subscription lifecycle after provider and pricing decisions.
 6. Measure representative tenant workloads, optimize queries/storage and establish monitoring and recovery objectives before a wider rollout.
+
+## Kingston calendar and branding update
+
+- Kingston No. 1933 EC defaults: first Wednesday at 19:00, recess in September and October, February Installation. Settings → Meeting calendar provides a year preview and editable rules for each lodge. New meetings suggest the next scheduled date; existing meetings and issued documents remain unchanged.
+- The isolated crest, temple venue, greeting and dress wording were taken from the user-provided November 2026 summons. The original PDF, Word document, full extracted text, member lists, candidate details and personal contacts are not included in source control or deployment packages.
+- Uploaded custom logos take precedence. Removing a crest is saved explicitly. Other lodge identities retain their own branding and calendar settings.
+- Validation: 26 automated tests, TypeScript, and desktop calendar/branding review. Real signed-in multi-user acceptance remains a pilot follow-up.

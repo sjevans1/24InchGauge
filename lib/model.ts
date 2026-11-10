@@ -1,3 +1,4 @@
+import { isKingston, kingstonVenue, type MeetingSchedule } from "./calendar";
 export type Role = "secretary" | "master" | "treasurer" | "member";
 export type Degree = "Candidate" | "EA" | "FC" | "MM";
 export const degrees: Degree[] = ["Candidate", "EA", "FC", "MM"];
@@ -6,6 +7,7 @@ export type Brand = {
   color: string;
   layout: "traditional" | "compact";
   logoId: string;
+  presetLogo?: "kingston" | "";
   greeting: string;
   footer: string;
   sections: string[];
@@ -20,6 +22,7 @@ export type Lodge = {
   sample: boolean;
   plan: "Complimentary pilot";
   brand: Brand;
+  schedule?: MeetingSchedule;
 };
 export type Member = {
   id: string;
@@ -174,6 +177,19 @@ export const defaultBrand: Brand = {
   sections: ["Notice", "Agenda", "Officers", "Notices"],
 };
 export function emptyState(lodge: Lodge): State {
+  lodge = structuredClone(lodge);
+  if (isKingston(lodge)) {
+    if (lodge.venue === "Freemasons’ Building, Barbados Avenue, Kingston")
+      lodge.venue = kingstonVenue;
+    if (lodge.brand.presetLogo === undefined)
+      lodge.brand.presetLogo = "kingston";
+    if (lodge.brand.greeting === defaultBrand.greeting)
+      lodge.brand.greeting =
+        "Dear Sir & Brother, you are hereby summoned/invited to attend the duties of the meeting of this Lodge.";
+    if (lodge.brand.footer === defaultBrand.footer)
+      lodge.brand.footer =
+        "By order of the Worshipful Master. Yours faithfully and fraternally. Dress: Evening Dress, Uniform or Black Lounge Suit; Black Tie, District Tie or Grand Lodge Tie.";
+  }
   return {
     lodge,
     revision: 0,

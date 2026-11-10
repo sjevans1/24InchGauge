@@ -1,4 +1,5 @@
 "use client";
+import { kingstonCrest } from "@/lib/kingston-crest";
 import {
   useEffect,
   useRef,
@@ -168,9 +169,13 @@ export function Paper({
   return (
     <article className={"paper " + brand.layout} style={{ color: brand.color }}>
       <div className="paper-top">
-        {brand.logoId ? (
+        {brand.logoId || brand.presetLogo === "kingston" ? (
           <img
-            src={`/api/files?lodge=${lodge.id}&id=${brand.logoId}`}
+            src={
+              brand.logoId
+                ? `/api/files?lodge=${lodge.id}&id=${brand.logoId}`
+                : kingstonCrest
+            }
             alt="Lodge crest"
           />
         ) : (

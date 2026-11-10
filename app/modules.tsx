@@ -1,4 +1,6 @@
 "use client";
+import { CalendarSettings } from "./calendar-settings";
+import { kingstonCrest } from "@/lib/kingston-crest";
 import { useState, useEffect } from "react";
 import {
   Plus,
@@ -931,6 +933,7 @@ export function SettingsPanel({
         {[
           { n: "Branding", i: Palette },
           { n: "Lodge details", i: Building2 },
+          { n: "Meeting calendar", i: CalendarDays },
           { n: "Access & invitations", i: ShieldCheck },
           { n: "Activity & export", i: History },
         ].map((t) => (
@@ -944,6 +947,7 @@ export function SettingsPanel({
           </button>
         ))}
       </div>
+      {tab === "Meeting calendar" && <CalendarSettings key={s.lodge.id} />}
       {tab === "Branding" && (
         <div className="document-layout settings-layout">
           <section className="panel padded">
@@ -952,10 +956,14 @@ export function SettingsPanel({
               Start with the built-in design. No existing template is needed.
             </p>
             <div className="logo-uploader">
-              {brand.logoId ? (
+              {brand.logoId || brand.presetLogo === "kingston" ? (
                 <img
                   alt="Uploaded lodge crest"
-                  src={`/api/files?lodge=${s.lodge.id}&id=${brand.logoId}`}
+                  src={
+                    brand.logoId
+                      ? `/api/files?lodge=${s.lodge.id}&id=${brand.logoId}`
+                      : kingstonCrest
+                  }
                 />
               ) : (
                 <Compass size={38} />
@@ -980,10 +988,12 @@ export function SettingsPanel({
                     }}
                   />
                 </label>
-                {brand.logoId && (
+                {(brand.logoId || brand.presetLogo) && (
                   <button
                     className="text-button"
-                    onClick={() => setBrand({ ...brand, logoId: "" })}
+                    onClick={() =>
+                      setBrand({ ...brand, logoId: "", presetLogo: "" })
+                    }
                   >
                     Remove
                   </button>

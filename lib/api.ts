@@ -1,3 +1,4 @@
+import { kingstonCrest } from "./kingston-crest";
 import { z } from "zod";
 import { AppError, applyCommand, assert, lodgeFields, permit } from "./domain";
 import {
@@ -55,8 +56,18 @@ async function body(req: Request) {
     throw new AppError("Invalid JSON.");
   }
 }
-async function logoBytes(bucket: R2Bucket, lodgeId: string, logoId: string) {
-  if (!logoId) return undefined;
+async function logoBytes(
+  bucket: R2Bucket,
+  lodgeId: string,
+  logoId: string,
+  presetLogo?: string,
+) {
+  if (!logoId)
+    return presetLogo === "kingston"
+      ? Uint8Array.from(atob(kingstonCrest.split(",")[1]), (c) =>
+          c.charCodeAt(0),
+        )
+      : undefined;
   const o = await bucket.get(`${lodgeId}/${logoId}`);
   return o ? new Uint8Array(await o.arrayBuffer()) : undefined;
 }
@@ -328,7 +339,12 @@ export async function handle(req: Request, env: Bindings): Promise<Response> {
           key = before.lodge.id + "/" + fileId;
         const bytes = await renderPDF(
           snap,
-          await logoBytes(bucket, before.lodge.id, before.lodge.brand.logoId),
+          await logoBytes(
+            bucket,
+            before.lodge.id,
+            before.lodge.brand.logoId,
+            before.lodge.brand.presetLogo,
+          ),
         );
         const after = structuredClone(before);
         after.files.push({
@@ -380,7 +396,12 @@ export async function handle(req: Request, env: Bindings): Promise<Response> {
         url.searchParams.get("kind") === "Minutes" ? "Minutes" : "Summons";
       const bytes = await renderPDF(
         snapshot(s, m, kind, now),
-        await logoBytes(bucket, lid, s.lodge.brand.logoId),
+        await logoBytes(
+          bucket,
+          lid,
+          s.lodge.brand.logoId,
+          s.lodge.brand.presetLogo,
+        ),
         true,
       );
       return new Response(bytes as BodyInit, {

@@ -46,7 +46,7 @@ export function sampleState(lodge?: Lodge): State {
       id: "meeting-1",
       title: "December Regular Meeting",
       date: "2026-12-02",
-      time: "18:30",
+      time: "19:00",
       venue: s.lodge.venue,
       type: "Regular",
       agenda: [

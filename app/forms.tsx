@@ -1,4 +1,5 @@
 "use client";
+import { nextMeeting, scheduleFor, kingstonVenue } from "@/lib/calendar";
 import { useState } from "react";
 import {
   Plus,
@@ -189,11 +190,7 @@ function Create() {
         </Field>
       </div>
       <Field label="Meeting venue">
-        <input
-          name="venue"
-          required
-          defaultValue="Freemasons’ Building, Barbados Avenue, Kingston"
-        />
+        <input name="venue" required defaultValue={kingstonVenue} />
       </Field>
       <Field label="Ledger currency">
         <select name="currency">
@@ -387,6 +384,7 @@ function MeetingForm({ meeting: m }: { meeting?: Meeting }) {
   const { s, command, close } = useApp(),
     [ceremonies, setCeremonies] = useState(m?.ceremonies || []),
     [candidate, setCandidate] = useState("");
+  const planned = nextMeeting(s.lodge, today());
   const eligible = s.members.filter(
     (b) =>
       b.status === "Active" &&
@@ -417,7 +415,10 @@ function MeetingForm({ meeting: m }: { meeting?: Meeting }) {
         <input
           name="title"
           required
-          defaultValue={m?.title}
+          defaultValue={
+            m?.title ||
+            (planned ? `${planned.month} ${planned.type} Meeting` : "")
+          }
           placeholder="Regular meeting"
         />
       </Field>
@@ -427,7 +428,7 @@ function MeetingForm({ meeting: m }: { meeting?: Meeting }) {
             name="date"
             type="date"
             required
-            defaultValue={m?.date || today()}
+            defaultValue={m?.date || planned?.date || today()}
           />
         </Field>
         <Field label="Time">
@@ -435,11 +436,14 @@ function MeetingForm({ meeting: m }: { meeting?: Meeting }) {
             name="time"
             type="time"
             required
-            defaultValue={m?.time || "18:30"}
+            defaultValue={m?.time || scheduleFor(s.lodge)?.time || "18:30"}
           />
         </Field>
         <Field label="Meeting type">
-          <select name="type" defaultValue={m?.type || "Regular"}>
+          <select
+            name="type"
+            defaultValue={m?.type || planned?.type || "Regular"}
+          >
             {["Regular", "Committee", "Installation", "Emergency"].map((v) => (
               <option key={v}>{v}</option>
             ))}

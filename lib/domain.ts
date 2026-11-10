@@ -444,6 +444,7 @@ export function applyCommand(
           color: z.string().regex(/^#[0-9a-f]{6}$/i),
           layout: z.enum(["traditional", "compact"]),
           logoId: z.string(),
+          presetLogo: z.enum(["kingston", ""]).optional(),
           greeting: z.string().trim().max(1500),
           footer: text,
           sections: z
@@ -464,6 +465,28 @@ export function applyCommand(
         "Choose a logo uploaded to this lodge.",
       );
       s.lodge.brand = d;
+      break;
+    }
+    case "saveCalendar": {
+      permit(access, ["secretary"]);
+      const d = z
+        .object({
+          weekday: z.number().int().min(0).max(6),
+          ordinal: z.number().int().min(1).max(5),
+          recessMonths: z.array(z.number().int().min(1).max(12)).max(11),
+          installationMonth: z.number().int().min(1).max(12),
+          time: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
+        })
+        .parse(raw);
+      assert(
+        new Set(d.recessMonths).size === d.recessMonths.length,
+        "Choose each recess month only once.",
+      );
+      assert(
+        !d.recessMonths.includes(d.installationMonth),
+        "Installation month cannot be a recess month.",
+      );
+      s.lodge.schedule = d;
       break;
     }
     case "saveLodge": {
