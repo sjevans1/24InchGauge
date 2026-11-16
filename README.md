@@ -2,6 +2,8 @@
 
 A working pilot for lodge administration: membership, connected meeting workflows, branded documents, financial records and movable-property tracking. Kingston Lodge No. 1933 is the founding use case. Each lodge has its own workspace and access permissions, with English, Scottish and Irish constitution settings.
 
+For current user journeys, remaining work and dated scope changes, see the [living delivery register](docs/USER_JOURNEYS_AND_DELIVERY_REGISTER.md). The pilot has not yet been user-accepted; physical proceedings and correspondence remain authoritative.
+
 ## Current release
 
 **Pilot implementation, 9 November 2026.** The application is implemented and tested; the broader commercial roadmap remains in progress. See [Pilot status and acceptance](docs/PILOT_STATUS.md) for precise coverage and limitations, and the [Master Development Blueprint](docs/MASTER_DEVELOPMENT_BLUEPRINT.md) for the full intended product.

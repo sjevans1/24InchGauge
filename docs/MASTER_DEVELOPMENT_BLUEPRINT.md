@@ -1,11 +1,15 @@
 # 24 Inch Gauge — Master Development Blueprint
 
-Version: 0.3  
+Version: 0.4
 Prepared: 7 November 2026, Jamaica  
 Repository: https://github.com/sjevans1/24InchGauge  
 Status: product blueprint with an implemented first pilot. The full roadmap below is not a list of completed features. See [Pilot status and acceptance](PILOT_STATUS.md) for implemented coverage, verification and remaining work.
 
 Implementation note (9 November 2026): the pilot uses React/TypeScript with Vinext on a Cloudflare Worker, D1 and R2, with hosting-platform authentication. Independent customer authentication, subscription billing and module entitlements are not yet implemented. The original architectural recommendations and provider-cost references below remain planning material.
+
+## Workflow clarification — 16 November 2026
+
+The [User journeys and delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md) governs the refined Kingston workflows and status tracking. The app supplements physical proceedings and existing Gmail correspondence: reviewed attendance-book photographs; draft minutes combined with Almoner, Treasurer and Charity Steward reports into a single PDF for circulation; revisions; and approval recorded from the next open lodge. These are requirements, not completed features. The existing approval flag must not be presented as completion of this journey. Update the delivery register alongside future implementation and scope changes.
 
 ## 1. Purpose and product outcome
 
