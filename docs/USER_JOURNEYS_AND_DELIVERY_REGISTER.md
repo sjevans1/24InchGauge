@@ -4,6 +4,22 @@ Last updated: 16 November 2026 (Jamaica)
 
 This is the living delivery record for 24 Inch Gauge. Update it whenever requirements, implementation or acceptance evidence change. It records the current baseline; it is not an automatic monitoring service. Read alongside [Pilot status](PILOT_STATUS.md) and the [Master blueprint](MASTER_DEVELOPMENT_BLUEPRINT.md).
 
+## Active checkpoint — 16 November 2026
+
+**Development interrupted; new workflows are not deployed.** The execution environment became unavailable during browser OCR testing. The new application source was last observed locally and has not been committed or packaged. Its recovery must be verified when execution resumes. The live pilot remains the previously published calendar/branding build.
+
+Before interruption, TypeScript and **30 automated tests passed** against the local changes. Browser review reached the new document navigation, minutes-version controls and combined-report form. A further actual-report-page merge test was added after that run and has not been executed. The browser OCR test reached “Reading”; no recognition result was observed. These facts do not constitute a completed build, deployment or user acceptance.
+
+| Work | Local progress, not deployed | Remaining verification / limits |
+| --- | --- | --- |
+| Minutes versions and approval evidence | Saved revisions, quoted evidence from a later regular meeting's current saved minutes, approved/amended/deferred decisions, rejection of stale evidence revisions | Recover source; finish review of correction cases; complete hosted user acceptance. Source minutes need not themselves be approved. |
+| Combined review packs | PDF report selection, explicit missing-report reasons, combined PDF, preserved version manifest, private preparation and deliberate member release | Run the newly added actual-report-page test; check final PDFs and hosted uploads. UI currently uses a fixed report order; configurable order remains outstanding. |
+| Attendance photographs | Private page uploads, page selection, manual review, exact-name suggestions, attendance history; verification does not perform ceremonies | Browser-local OCR added with self-hosted runtime/model assets, but recognition result not yet verified. Handwriting accuracy remains untested. |
+| Correspondence | Private mailing groups, duplicate-address removal, Gmail compose handoff and manual pack-dispatch record | This is not direct Gmail integration. No messages sent. Authorised provider integration, delivery confirmation and controlled sending remain outstanding. |
+| Supplied workbooks | Structure and sample values inspected privately; membership/contact sheets, separate mailing lists and historical attendance recognised | No live import. Preserve dated evidence and reconcile conflicts before importing; do not infer degrees, current offices or absences from missing values. |
+
+Resume sequence: recover the local checkout; remove the temporary OCR QA route before packaging; finish OCR and PDF checks; run TypeScript and the full test suite; build; verify no private documents or extracted records are tracked; sync code to GitHub and publish with the existing owner-private audience. Reconcile this register with the recovered source before replacing these checkpoint statuses.
+
 ## Governing principle
 
 The application supplements physical lodge proceedings and existing correspondence. It reduces transcription and repeated preparation; it does not replace the attendance book, ceremonies, officers' reports, deliberation or approval in open lodge. A software action records an authorised person's confirmation of what happened; it does not itself confer lodge approval.
@@ -53,9 +69,10 @@ Proposed implementation: accept PDF reports first, validate/preview files and ha
 
 1. Members receive the review pack before the next meeting.
 2. In the next open lodge meeting, the lodge considers the previous minutes and any corrections.
-3. Secretary records the actual outcome: approved as circulated, approved with amendments, or deferred/not approved.
+3. The app learns the outcome through the minutes of the current regular meeting. The Secretary uploads or saves those minutes and verifies the passage recording approval, approval with amendments, or deferral of the previous regular meeting's minutes. Do not infer approval from the meeting date, agenda, upload alone or a standalone checkbox.
 4. App records the meeting whose minutes were considered, the later approving meeting/date, the exact approved text/version, outcome, amendments and who recorded the decision. Proposer/seconder fields depend on confirmed local practice and are not assumed mandatory.
-5. Approved minutes are locked as a historical version. Later corrections use an explicit linked record rather than silently replacing history.
+5. Preserve the source meeting, exact source-minutes version and quoted passage alongside the previous minutes version to which the decision applies. The current source minutes need not themselves be approved; otherwise the workflow would create a circular dependency.
+6. Approved minutes are locked as a historical version. Later corrections use an explicit linked record rather than silently replacing history. A newer version of the source minutes requires review of any affected decision.
 
 Current: Draft/Approved status and an explicit approval confirmation exist, and approved text cannot be edited. However, the action is not linked to a subsequent open-lodge meeting and lacks circulation, amendment and deferral states. Its approval button is not evidence that the required physical approval occurred.
 
@@ -67,7 +84,7 @@ Members receive summonses and review packs by email; optional app access exposes
 
 ## Delivery register
 
-Status vocabulary: **Implemented / not user-accepted**, **Partial**, **Not built**, **Pending decision**, **Accepted**. Accepted requires dated user acceptance evidence. Test failures or blockers must be recorded explicitly; a feature name alone is not evidence of completion.
+Status vocabulary: **Implemented / not user-accepted**, **Partial**, **Not built**, **In development / not deployed**, **Pending decision**, **Accepted**. The table below describes the deployed baseline; the active checkpoint above records unpublished development. Accepted requires dated user acceptance evidence. Test failures or blockers must be recorded explicitly; a feature name alone is not evidence of completion.
 
 | ID | Work item | Current status | Remaining work / completion evidence |
 | --- | --- | --- | --- |
@@ -99,9 +116,19 @@ Status vocabulary: **Implemented / not user-accepted**, **Partial**, **Not built
 | 16 Nov 2026 | D04 | Attendance book photo(s) as a meeting input | Newly explicit scope: reviewed handwriting extraction and reconciliation, not automatic attendance confirmation. |
 | 16 Nov 2026 | D05 | Draft minutes plus Almoner/Treasurer/Charity Steward reports circulated as one PDF | Newly explicit scope: report collection, merge, circulation versions and pre-approval distribution. |
 | 16 Nov 2026 | D06 | Minutes can be amended and are approved in the next open lodge | Refines approval scope; existing approval flag does not satisfy this journey. Preserve actual outcomes including deferral. |
+| 16 Nov 2026 | D08 | Approval is evidenced through the current regular meeting's minutes | Capture the exact source revision and passage; do not require approval of those source minutes or infer approval from an agenda. |
+| 16 Nov 2026 | D09 | Private membership/attendance and dated district workbooks supplied | Review and reconcile before import; retain source dates and keep real records outside GitHub and public test fixtures. |
 | 16 Nov 2026 | D07 | Maintain a continuously updated scope/progress record | This register is the primary status index. Update with each development or acceptance session; retain dated changes and links to evidence. |
 
+## Source-data reconciliation notes — 16 November 2026
+
+The privately supplied Kingston workbook includes membership/contact information, general-member and committee email lists, attendance sheets labelled 2024, 2025 and 2026, and an attendance summary. Some attendance sheets mark August/September as holidays, conflicting with the user-confirmed current September/October rule. Retain the historical source labels and flag the discrepancy; do not rewrite historical meetings to match today's schedule. Sample summary values exceed 100%, so the count/denominator and period must be reconciled before treating the summary as authoritative. Spreadsheet blanks are not automatically absences.
+
+The district reference includes a main heading dated May 6, 2025 and another section labelled 2023. Preserve section-specific dates. These are dated references for development, not proof of current officers, contact details or access rights. Use synthetic fixtures in public source control. Neither workbook nor its private records has been imported into the live app or committed to GitHub.
+
 ## Next delivery sequence
+
+First complete the recovery and verification steps in the active checkpoint. The original delivery sequence remains:
 
 1. Implement W06–W08 together: review-pack creation, circulation versions, amendments and approval recorded at the subsequent meeting. Allow manual Gmail sending with honestly recorded manual dispatch while W03 is pending.
 2. Implement W04–W05: attendance photographs, reviewed extraction/matching and physical-meeting confirmation.
