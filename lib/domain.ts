@@ -282,23 +282,29 @@ export function applyCommand(
         m.status === "Completed" && m.minutesStatus === "Draft",
         "Only draft minutes of a held meeting can be edited.",
       );
+      m.minutesRevisions ??= [];
+      if (m.minutes && m.minutesRevisions.at(-1)?.text !== m.minutes) m.minutesRevisions.push({id: id(), text: m.minutes, at});
       m.minutes = d.minutes;
+      if (m.minutesRevisions.at(-1)?.text !== m.minutes) m.minutesRevisions.push({id: id(), text: m.minutes, at});
       break;
     }
     case "approveMinutes": {
-      permit(access, ["secretary", "master"]);
-      const d = z
-        .object({ id: z.string(), confirmed: z.literal(true) })
-        .parse(raw);
-      const m = meeting(d.id);
-      assert(
-        m.status === "Completed" &&
-          m.minutesStatus === "Draft" &&
-          m.minutes.trim() &&
-          !m.minutes.includes("[Record discussion and decision]"),
-        "Complete the draft minutes and resolve all placeholders before approval.",
-      );
-      m.minutesStatus = "Approved";
+      throw new AppError("Record approval from the passage in a later regular meeting’s minutes.");
+    }
+    case "recordMinutesDecision": {
+      permit(access, ["secretary"]);
+      const d = z.object({id: z.string(), sourceMeetingId: z.string(), sourceRevisionId: z.string(), targetRevisionId: z.string(), excerpt: z.string().trim().min(15).max(6000), outcome: z.enum(["Approved", "Approved with amendments", "Deferred"]), confirmed: z.literal(true)}).parse(raw);
+      const target = meeting(d.id), source = meeting(d.sourceMeetingId);
+      assert(target.status === "Completed" && target.type === "Regular" && target.minutesStatus === "Draft", "Choose draft minutes of a held regular meeting.");
+      assert(source.id !== target.id && source.type === "Regular" && source.status === "Completed" && source.date > target.date && source.date <= dateNow, "Evidence must come from a later held regular meeting.");
+      const sr = source.minutesRevisions?.at(-1), tr = target.minutesRevisions?.at(-1);
+      assert(sr && sr.id === d.sourceRevisionId && sr.text === source.minutes, "Save and select the current source minutes version.");
+      assert(tr && tr.id === d.targetRevisionId && tr.text === target.minutes && tr.text.trim() && !tr.text.includes("[Record discussion and decision]"), "Save complete target minutes and resolve all placeholders.");
+      assert(sr.text.includes(d.excerpt), "The quoted passage must appear verbatim in the source minutes.");
+      target.minutesDecisions ??= [];
+      assert(!target.minutesDecisions.some(x => x.sourceRevisionId === sr.id && x.targetRevisionId === tr.id && x.excerpt === d.excerpt && x.outcome === d.outcome), "This decision has already been recorded.");
+      target.minutesDecisions.push({id: id(), sourceMeetingId: source.id, sourceRevisionId: sr.id, targetRevisionId: tr.id, excerpt: d.excerpt, outcome: d.outcome, at, actor: access.userId});
+      target.minutesStatus = d.outcome === "Deferred" ? "Draft" : "Approved";
       break;
     }
     case "saveTask": {

@@ -34,7 +34,11 @@ export type Member = {
   status: "Active" | "Resigned" | "Deceased" | "Suspended";
   joined: string;
 };
+export type MinutesRevision = { id: string; text: string; at: string };
+export type MinutesDecision = { id: string; sourceMeetingId: string; sourceRevisionId: string; targetRevisionId: string; excerpt: string; outcome: "Approved" | "Approved with amendments" | "Deferred"; at: string; actor: string };
 export type Meeting = {
+  minutesRevisions?: MinutesRevision[];
+  minutesDecisions?: MinutesDecision[];
   id: string;
   title: string;
   date: string;
@@ -249,7 +253,7 @@ export function snapshot(
 ): DocumentSnapshot {
   return structuredClone({
     lodge: s.lodge,
-    meeting,
+    meeting: { ...meeting, minutesRevisions: undefined, minutesDecisions: undefined },
     kind,
     issuedAt,
     officers: s.members
@@ -265,6 +269,7 @@ export function snapshot(
 export function visibleState(state: State, access: Access): State {
   const s = structuredClone(state);
   if (access.role === "secretary") return s;
+  s.meetings = s.meetings.map(m => ({...m, minutesRevisions: undefined, minutesDecisions: undefined}));
   s.access = [];
   s.invites = [];
   s.audit = [];

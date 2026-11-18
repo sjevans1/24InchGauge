@@ -605,34 +605,33 @@ test("issued PDF bytes and source snapshot survive later branding and agenda edi
   assert.deepEqual(s.documents[0], issued);
   assert.deepEqual(f.bucket.objects.get(key), bytes);
 });
-test("minutes approval rejects placeholders and approved text cannot be overwritten", () => {
-  const s = confirm();
-  assert.throws(
-    () =>
-      applyCommand(s, a, "approveMinutes", {
-        id: "meeting-1",
-        confirmed: true,
-      }),
-    /resolve all placeholders/,
-  );
-  const saved = applyCommand(s, a, "saveMinutes", {
-    id: "meeting-1",
-    minutes:
-      "The minutes were read and confirmed. The stated ceremony was performed.",
-  });
-  const approved = applyCommand(saved, a, "approveMinutes", {
-    id: "meeting-1",
-    confirmed: true,
-  });
-  assert.equal(approved.meetings[0].minutesStatus, "Approved");
-  assert.throws(
-    () =>
-      applyCommand(approved, a, "saveMinutes", {
-        id: "meeting-1",
-        minutes: "Changed",
-      }),
-    /Only draft minutes/,
-  );
+test("minutes decisions require current later regular minutes and preserve evidence", () => {
+  let s = confirm();
+  assert.throws(() => applyCommand(s, a, "approveMinutes", {id: "meeting-1", confirmed: true}), /later regular/);
+  s = applyCommand(s, a, "saveMinutes", {id:"meeting-1", minutes:"The stated ceremony was performed and business concluded."});
+  s.meetings.push({...structuredClone(s.meetings[0]), id:"later", date:"2026-11-18", type:"Regular", minutes:"", minutesRevisions:[]});
+  s.meetings[0].date = "2026-11-04";
+  s.meetings[0].type = "Regular";
+  const passage = "The minutes of the previous regular meeting were approved with amendments.";
+  s = applyCommand(s,a,"saveMinutes",{id:"later",minutes:passage});
+  const data = {id:"meeting-1",sourceMeetingId:"later",sourceRevisionId:s.meetings.at(-1)!.minutesRevisions!.at(-1)!.id,targetRevisionId:s.meetings[0].minutesRevisions!.at(-1)!.id,excerpt:passage,outcome:"Approved with amendments",confirmed:true};
+  const now = new Date("2026-11-18T18:00:00Z");
+  assert.throws(() => applyCommand(s,{...a,role:"master"},"recordMinutesDecision",data,now), /role/);
+  assert.throws(() => applyCommand(s,a,"recordMinutesDecision",{...data,excerpt:"Invented approval passage"},now), /verbatim/);
+  assert.throws(() => applyCommand(s,a,"recordMinutesDecision",{...data,sourceMeetingId:"meeting-1"},now), /later held/);
+  assert.throws(() => applyCommand(s,a,"recordMinutesDecision",data,new Date("2026-11-17T18:00:00Z")), /later held/);
+  const changed = applyCommand(s,a,"saveMinutes",{id:"later",minutes:passage+" Further business followed."});
+  assert.throws(() => applyCommand(changed,a,"recordMinutesDecision",data,now), /current source/);
+  const deferred = applyCommand(s,a,"recordMinutesDecision",{...data,outcome:"Deferred"},now);
+  assert.equal(deferred.meetings[0].minutesStatus,"Draft");
+  assert.throws(() => applyCommand(deferred,a,"recordMinutesDecision",{...data,outcome:"Deferred"},now), /already/);
+  const approved = applyCommand(s,a,"recordMinutesDecision",data,now);
+  assert.equal(approved.meetings[0].minutesStatus,"Approved");
+  assert.equal(approved.meetings.at(-1)!.minutesStatus,"Draft");
+  assert.equal(approved.meetings[0].minutesDecisions![0].excerpt,passage);
+  assert.throws(() => applyCommand(approved,a,"saveMinutes",{id:"meeting-1",minutes:"Changed"}), /Only draft/);
+  assert.equal(visibleState(approved,{...a,role:"master"}).meetings[0].minutesRevisions,undefined);
+  assert.equal(snapshot(approved,approved.meetings[0],"Minutes",now.toISOString()).meeting.minutesDecisions,undefined);
 });
 test("long agenda PDFs paginate, including very long unbroken words", async () => {
   const s = base();

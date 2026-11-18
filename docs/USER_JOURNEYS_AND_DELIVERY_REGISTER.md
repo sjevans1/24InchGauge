@@ -1,10 +1,16 @@
 # User journeys and delivery register
 
-Last updated: 16 November 2026 (Jamaica)
+Last updated: 18 November 2026 (Jamaica)
 
 This is the living delivery record for 24 Inch Gauge. Update it whenever requirements, implementation or acceptance evidence change. It records the current baseline; it is not an automatic monitoring service. Read alongside [Pilot status](PILOT_STATUS.md) and the [Master blueprint](MASTER_DEVELOPMENT_BLUEPRINT.md).
 
-## Active checkpoint — 16 November 2026
+## Active checkpoint — 18 November 2026
+
+The recovered workspace contained only the last deployed source: the unpublished 16 November implementation was missing. Minutes revision history and evidence-based approval have now been rebuilt. The Secretary selects a later held regular meeting, quotes its current saved minutes, and records approved / approved with amendments / deferred against the exact target version. Source minutes do not need approval. Stale revisions, future meetings, other-lodge records and non-Secretary decisions are rejected. The old standalone approval action is disabled. Source revisions and decision history are private to the Secretary; issued PDFs exclude that metadata. Source edits flag preserved decisions for review.
+
+Validation: TypeScript and all 26 current automated tests pass, including replacement approval-evidence coverage. This is a recovery of one workflow, not recovery of the former 30-test implementation. Post-approval corrections, combined PDF review packs, attendance photo/OCR, correspondence and reviewed workbook import remain outstanding. No live member import or email sending occurred. User acceptance is pending. Publication status is recorded in the delivery response; a successful build alone is not deployment evidence.
+
+## Historical interruption checkpoint — 16 November 2026
 
 **Development interrupted; new workflows are not deployed.** The execution environment became unavailable during browser OCR testing. The new application source was last observed locally and has not been committed or packaged. Its recovery must be verified when execution resumes. The live pilot remains the previously published calendar/branding build.
 
@@ -74,7 +80,7 @@ Proposed implementation: accept PDF reports first, validate/preview files and ha
 5. Preserve the source meeting, exact source-minutes version and quoted passage alongside the previous minutes version to which the decision applies. The current source minutes need not themselves be approved; otherwise the workflow would create a circular dependency.
 6. Approved minutes are locked as a historical version. Later corrections use an explicit linked record rather than silently replacing history. A newer version of the source minutes requires review of any affected decision.
 
-Current: Draft/Approved status and an explicit approval confirmation exist, and approved text cannot be edited. However, the action is not linked to a subsequent open-lodge meeting and lacks circulation, amendment and deferral states. Its approval button is not evidence that the required physical approval occurred.
+Current recovery: saved minutes revisions and later-meeting quoted decision evidence are implemented, with approved, approved with amendments and deferred outcomes. Approved text remains locked. Linked post-approval corrections and circulation remain outstanding.
 
 Target model (proposed): Draft → Circulated for review → Revised when necessary → Approval recorded in open lodge. Deferral keeps approval pending. Circulation version, document issuance status and approval status must be separate. Approval of minutes does not automatically approve or alter an attached financial or officers' report. Historical imports must distinguish the original approval date from the date entered into the application.
 
@@ -95,7 +101,7 @@ Status vocabulary: **Implemented / not user-accepted**, **Partial**, **Not built
 | W05 | Attendance and actual ceremony recording | Partial | Manual attendance/ceremony confirmation exists; separate evidence review and correct omitted office-service attendance; validate physical-meeting scenario. |
 | W06 | Minutes drafting and revision | Partial | Editing exists before approval; add preserved circulated versions, amendments and comparison history. |
 | W07 | Officer reports and one-PDF review pack | Not built | Meeting-linked reports, inclusion checks, ordering, merge, page preview, version manifest and clearly unapproved minutes. |
-| W08 | Approval recorded at subsequent open lodge | Partial | Existing approval flag is insufficient; add linked approving meeting, decision, amended version, deferral and audited post-approval corrections. |
+| W08 | Approval recorded at subsequent open lodge | Partial | Linked source/target versions, quoted decisions and deferral rebuilt on 18 November; audited post-approval corrections and user acceptance remain. |
 | W09 | Member/Secretary/Treasurer/Master journeys | Partial | Roles exist; real signed-in account tests remain. Hosting is owner-private: lodge invitations alone do not admit other users through the outer site gate. Do not widen access without authorization. |
 | W10 | Mentoring and officer reporting | Partial | Generic follow-up tasks exist; formal mentee requests, ritual-work, attendance and Past Master engagement reports remain. |
 | W11 | Financial administration | Partial | Ledger exists; opening balances, bank reconciliation, budgets, arrears statements, period controls and Treasurer acceptance remain. |
@@ -143,3 +149,4 @@ Baseline inspected: GitHub main `41bd6cd15f8ed8e461846d418321596cf54a2278`. Last
 For every subsequent work session: update the relevant W IDs, add newly requested scope and its priority impact, link code/test/deployment evidence, record decisions and blockers, and distinguish implemented, deployed and user-accepted. Keep completed items rather than deleting history. Do not mark manual workarounds as implemented automation. The app does not yet expose this delivery register as an in-app project-management screen.
 
 Privacy: do not commit original summonses, attendance photos, officers' reports, minutes, member addresses, mailbox credentials or extracted private records. GitHub holds product specifications, code and the authorised isolated crest. Operational source documents remain private tenant data.
+

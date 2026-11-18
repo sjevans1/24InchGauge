@@ -623,7 +623,11 @@ function Minutes({ meeting }: { meeting: Meeting }) {
   const { s, data, busy, command, close } = useApp(),
     m = s.meetings.find((m) => m.id === meeting.id)!;
   const [text, setText] = useState(m.minutes),
-    [confirmed, setConfirmed] = useState(false);
+    [confirmed, setConfirmed] = useState(false),
+    [sourceId, setSourceId] = useState(""),
+    [excerpt, setExcerpt] = useState(""),
+    [outcome, setOutcome] = useState("Approved");
+  const source = s.meetings.find(x => x.id === sourceId);
   const approved = m.minutesStatus === "Approved",
     dirty = text !== m.minutes;
   return (
@@ -633,8 +637,7 @@ function Minutes({ meeting }: { meeting: Meeting }) {
         <Badge>{m.minutesStatus}</Badge>
       </div>
       <p className="muted">
-        Complete the discussion and decisions, then record approval. Approved
-        minutes cannot be overwritten.
+        Save the minutes, then record the decision using the later regular meeting’s minutes. The source minutes do not themselves need approval.
       </p>
       <textarea
         className="minutes-editor"
@@ -644,8 +647,12 @@ function Minutes({ meeting }: { meeting: Meeting }) {
         readOnly={approved || data.role !== "secretary"}
         onChange={(e) => setText(e.target.value)}
       />
-      {!approved && (
+      {!approved && data.role === "secretary" && (
         <>
+          <label>Later regular meeting<select value={sourceId} onChange={e => {setSourceId(e.target.value);setExcerpt("");setConfirmed(false);}}><option value="">Select evidence meeting</option>{s.meetings.filter(x => x.status === "Completed" && x.type === "Regular" && x.date > m.date && x.date <= today()).map(x => <option key={x.id} value={x.id}>{displayDate(x.date)} — {x.title}</option>)}</select></label>
+          {source && <details open><summary>Current source minutes</summary><p style={{whiteSpace:"pre-wrap"}}>{source.minutes || "Save the source minutes first."}</p></details>}
+          <label>Exact passage recording the decision<textarea rows={4} value={excerpt} onChange={e => setExcerpt(e.target.value)} /></label>
+          <label>Recorded outcome<select value={outcome} onChange={e => setOutcome(e.target.value)}><option>Approved</option><option>Approved with amendments</option><option>Deferred</option></select></label>
           <label className="checkbox-line">
             <input
               type="checkbox"
@@ -653,8 +660,7 @@ function Minutes({ meeting }: { meeting: Meeting }) {
               onChange={(e) => setConfirmed(e.target.checked)}
             />
             <span>
-              I confirm that these minutes have received the required lodge
-              approval.
+              I have checked that this passage records the decision for these minutes, including any amendments.
             </span>
           </label>
           {dirty && (
@@ -662,6 +668,8 @@ function Minutes({ meeting }: { meeting: Meeting }) {
           )}
         </>
       )}
+      {data.role === "secretary" && m.minutesDecisions?.map(d => <details key={d.id}><summary>{d.outcome} — {displayDate(d.at.slice(0,10))}</summary><p>Source: {s.meetings.find(x => x.id === d.sourceMeetingId)?.title}</p><blockquote>{d.excerpt}</blockquote>{s.meetings.find(x => x.id === d.sourceMeetingId)?.minutesRevisions?.at(-1)?.id !== d.sourceRevisionId && <p>Source minutes have changed. Review this preserved decision evidence.</p>}</details>)}
+      {data.role === "secretary" && <details><summary>Saved minutes versions ({m.minutesRevisions?.length || 0})</summary>{m.minutesRevisions?.map(v => <details key={v.id}><summary>{v.at}</summary><p style={{whiteSpace:"pre-wrap"}}>{v.text}</p></details>)}</details>}
       <div className="form-actions">
         <button className="secondary" onClick={close}>
           Close
@@ -675,15 +683,15 @@ function Minutes({ meeting }: { meeting: Meeting }) {
             Save draft
           </button>
         )}
-        {!approved && (
+        {!approved && data.role === "secretary" && (
           <button
             className="primary"
-            disabled={busy || dirty || !confirmed}
+            disabled={busy || dirty || !confirmed || !source?.minutesRevisions?.length || !m.minutesRevisions?.length || excerpt.trim().length < 15}
             onClick={() =>
-              command("approveMinutes", { id: m.id, confirmed: true })
+              command("recordMinutesDecision", { id: m.id, sourceMeetingId: sourceId, sourceRevisionId: source?.minutesRevisions?.at(-1)?.id, targetRevisionId: m.minutesRevisions?.at(-1)?.id, excerpt, outcome, confirmed: true })
             }
           >
-            Record approval
+            Record evidenced decision
           </button>
         )}
         {approved && data.role === "secretary" && (
