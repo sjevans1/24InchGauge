@@ -1,6 +1,8 @@
 # Pilot status and acceptance
 
-Updated: 9 November 2026 (Jamaica).
+Updated: 18 November 2026 (Jamaica). The delivery register records current implementation and verification.
+
+**Workflow clarification:** See [User journeys and delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md) for the authoritative physical-process journeys, current gaps, scope changes and next work. The Secretary has not yet tested the application. Later-meeting quoted approval evidence and saved minutes versions are implemented; merged pre-approval review packs, attendance-photo ingestion and Gmail dispatch remain outstanding.
 
 This is the first operational pilot of 24 Inch Gauge. It implements selected foundations across the blueprint's milestones; it does not claim that all M1–M5 acceptance gates or commercial-launch requirements are complete.
 
@@ -29,7 +31,7 @@ English, Scottish and Irish are selectable identity settings. This is not a clai
 3. Set lodge identity and upload a crest in **Lodge settings → Branding**. No existing template is needed.
 4. Add members or use the CSV template. Never import the sample template row as a real brother.
 5. Plan a meeting, add its agenda and scheduled ceremony, preview its PDF, then issue the summons when ready.
-6. After the meeting, confirm actual attendance and the ceremony performed. Review generated draft minutes and mentoring tasks. Save complete minutes, record the lodge's approval, then issue the approved PDF.
+6. In sample testing, confirm actual attendance and the ceremony performed, and review draft minutes and mentoring tasks. For live use, the physical meeting and subsequent open-lodge approval remain authoritative. The current pilot supports linked later-meeting approval evidence; the combined pre-approval review pack and user acceptance remain outstanding.
 7. Record external receipts/expenses and property details as needed.
 
 The pilot's hosting access is owner-private. A lodge invitation does not grant access through the outer site access policy, and it sends no email. Other officers must first be explicitly admitted to the pilot site, then accept their lodge invitation using the matching sign-in email. No additional audience is granted by deployment.
@@ -37,7 +39,7 @@ The pilot's hosting access is owner-private. A lodge invitation does not grant a
 ## Verification
 
 - TypeScript check passes.
-- 22 automated tests pass. They cover authentication/origin checks, tenant isolation, role expiry/revocation, concurrent update rollback, ceremony confirmation/idempotency, degree corrections, financial balancing/reversal, import atomicity, restricted member projections, property history, invitation binding, issued-PDF immutability, minutes approval, PDF pagination and CSV formula neutralization.
+- 27 automated tests and TypeScript passed on 18 November, including the corrected August/September recess and approval evidence. They cover authentication/origin checks, tenant isolation, role expiry/revocation, concurrent update rollback, ceremony confirmation/idempotency, degree corrections, financial balancing/reversal, import atomicity, restricted member projections, property history, invitation binding, issued-PDF immutability, minutes approval, PDF pagination and CSV formula neutralization.
 - Tests execute the real migration and SQL against Node's SQLite adapter; R2 object storage is simulated in memory. They are not a hosted multi-user acceptance test.
 - The production Worker build succeeds. Native deployment status separately establishes whether that artifact is live.
 - Browser QA exercised the read-only tour on a desktop and at a 390-pixel mobile width: navigation, document layout, live branding changes and member-entry dialog. The mobile check is a responsive-width browser test, not a physical iPhone/Safari certification.
@@ -55,6 +57,8 @@ Image uploads are converted to PNG and limited by size, signature and dimensions
 Ledger posting is a record-keeping function, not payment processing or a complete accounting close. Configure the true opening balances and accounting procedures in the subsequent finance milestone before treating this as the lodge's sole accounting system.
 
 ## Next development order
+
+The 16 November [delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md#next-delivery-sequence) supersedes the sequencing below: minutes review packs/approval, attendance-photo review and Gmail correspondence are the immediate workflow gaps. The following broader work remains pending.
 
 1. Complete owner/officer acceptance with separate accounts, real sample crest/document uploads and the Kingston secretary's full meeting workflow.
 2. Add full backup/restore and operational controls before historical migration.
