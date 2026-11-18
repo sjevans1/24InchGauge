@@ -150,3 +150,20 @@ For every subsequent work session: update the relevant W IDs, add newly requeste
 
 Privacy: do not commit original summonses, attendance photos, officers' reports, minutes, member addresses, mailbox credentials or extracted private records. GitHub holds product specifications, code and the authorised isolated crest. Operational source documents remain private tenant data.
 
+
+
+## Report and letter reference review — 18 November 2026
+
+Additional privately supplied Almoner and Charity Steward reports and candidate invitation letters were reviewed as workflow references. Originals, personal details, welfare narratives, banking details and extracted operational records remain outside this repository. This review changes requirements only: it does not import records, distribute documents or implement the features below.
+
+| ID | Requirement clarified by references | Status / acceptance requirement |
+| --- | --- | --- |
+| W18 | Reusable candidate initiation letters | Not built. Merge reviewed candidate details, scheduled ceremony, arrival time, venue, dress, proposer instructions, effective-dated fees and payment instructions into lodge stationery. Preserve the issued version and signatory/office as at issuance. A letter or successful ballot does not prove that initiation occurred. |
+| W19 | Almoner reporting and restricted welfare work | Not built. Support brethren, widows and family connections, contact attempts, follow-up tasks, apologies, announcements and annexes. Separate restricted working notes from the report deliberately selected for circulation. Upload does not automatically publish sensitive content or change attendance/member status. |
+| W20 | Charity initiatives and reporting | Not built. Track proposed, approved, active, paused and completed initiatives; volunteers, cash and in-kind pledges, actual contributions, budgets and outcomes. Projected revenue/surplus and estimated donation values must not become posted ledger transactions. |
+| W21 | Ceremonies performed at another lodge | Not built. Record the host lodge, ceremony date, source evidence and Secretary verification, with correction history. Do not require a fictitious home-lodge meeting or advance a degree solely from an imported report. |
+| W07 refinement | Reporting periods, versions and annexes | Store report period separately from authored/presented dates and linked meeting. Preserve annexes and scanned attachment pages. Similar filenames or an “updated” label do not prove that two documents cover the same period or that one supersedes the other. |
+
+Reconciliation: older references use a different recess pattern from the current user-confirmed September/October rule, and some refer to a separate Installation start time. Keep source wording intact; flag historical calendar and time conflicts for review rather than overwriting current configuration. Likewise, reconcile name spellings and document dates before linking people or meetings. Old officer panels, anniversary labels, fee schedules and banking instructions are historical source values, not automatic current defaults.
+
+Next implementation priority remains the combined review PDF, now with explicit report-period metadata and annex preservation. Candidate correspondence, welfare follow-up, charity tracking and externally performed ceremonies are tracked additions, not claims of completed functionality.
