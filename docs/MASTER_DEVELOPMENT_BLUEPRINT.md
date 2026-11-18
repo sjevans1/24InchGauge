@@ -1,15 +1,11 @@
 # 24 Inch Gauge — Master Development Blueprint
 
-Version: 0.4
+Version: 0.3  
 Prepared: 7 November 2026, Jamaica  
 Repository: https://github.com/sjevans1/24InchGauge  
 Status: product blueprint with an implemented first pilot. The full roadmap below is not a list of completed features. See [Pilot status and acceptance](PILOT_STATUS.md) for implemented coverage, verification and remaining work.
 
 Implementation note (9 November 2026): the pilot uses React/TypeScript with Vinext on a Cloudflare Worker, D1 and R2, with hosting-platform authentication. Independent customer authentication, subscription billing and module entitlements are not yet implemented. The original architectural recommendations and provider-cost references below remain planning material.
-
-## Workflow clarification — 16 November 2026
-
-The [User journeys and delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md) governs the refined Kingston workflows and status tracking. The app supplements physical proceedings and existing Gmail correspondence: reviewed attendance-book photographs; draft minutes combined with Almoner, Treasurer and Charity Steward reports into a single PDF for circulation; revisions; and approval recorded from the next open lodge. These are requirements, not completed features. The existing approval flag must not be presented as completion of this journey. Update the delivery register alongside future implementation and scope changes.
 
 ## 1. Purpose and product outcome
 
@@ -43,7 +39,7 @@ The first column below records the user's direction. Implementation choices in t
 | Cost and scale | Least practical cost, affordable growth; approximately 20,000 active users | Serverless application with monitored database, file and messaging usage; load tests before scale claims |
 | Brand and ownership | Repository selected as 24InchGauge | Use “24 Inch Gauge” as working name; commercial entity and licence remain undecided |
 
-Previously discussed Kingston requirements should be configurable defaults: February–January lodge year, September and October recess, attendance recognised when a brother serves in office even if omitted from the separate attendance list, and reporting on ritual work and Past Master engagement. The financial year is a separate setting and must not be assumed to match the lodge year.
+Previously discussed Kingston requirements should be configurable defaults: February–January lodge year, August and September recess, attendance recognised when a brother serves in office even if omitted from the separate attendance list, and reporting on ritual work and Past Master engagement. The financial year is a separate setting and must not be assumed to match the lodge year.
 
 ## 3. User experience and module boundaries
 

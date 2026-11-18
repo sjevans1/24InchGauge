@@ -1,8 +1,6 @@
 # Pilot status and acceptance
 
-Updated: 16 November 2026 (Jamaica); implementation baseline remains the 9 November pilot.
-
-**Workflow clarification:** See [User journeys and delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md) for the authoritative physical-process journeys, current gaps, scope changes and next work. The Secretary has not yet tested the application. The existing minutes approval flag does not yet model approval in the next open lodge; merged pre-approval review packs, attendance-photo ingestion and Gmail dispatch are not implemented.
+Updated: 9 November 2026 (Jamaica).
 
 This is the first operational pilot of 24 Inch Gauge. It implements selected foundations across the blueprint's milestones; it does not claim that all M1–M5 acceptance gates or commercial-launch requirements are complete.
 
@@ -22,7 +20,7 @@ This is the first operational pilot of 24 Inch Gauge. It implements selected fou
 | Commercial service | Separate tenant workspaces, complimentary pilot designation, no fees or member payments                                                  | Plan catalog, module entitlement enforcement, audited complimentary grants, paid checkout, webhooks and subscription lifecycle                          |
 | Operations         | Schema migrations, durable D1/R2 records, source control, JSON/CSV metadata exports                                                      | Complete file-inclusive backups, tested restore, monitoring, retention policy, stronger upload validation, load testing and operational security review |
 
-English, Scottish and Irish are selectable identity settings. This is not a claim of verified procedural compliance across constitutions. Kingston's calendar defaults to the first Wednesday, 19:00, with September/October recess and February Installation. Calendar settings are configurable; February–January reporting periods remain planned.
+English, Scottish and Irish are selectable identity settings. This is not a claim of verified procedural compliance across constitutions. Kingston's calendar defaults to the first Wednesday, 19:00, with August/September recess and February Installation. Calendar settings are configurable; February–January reporting periods remain planned.
 
 ## Start the pilot
 
@@ -31,7 +29,7 @@ English, Scottish and Irish are selectable identity settings. This is not a clai
 3. Set lodge identity and upload a crest in **Lodge settings → Branding**. No existing template is needed.
 4. Add members or use the CSV template. Never import the sample template row as a real brother.
 5. Plan a meeting, add its agenda and scheduled ceremony, preview its PDF, then issue the summons when ready.
-6. In sample testing, confirm actual attendance and the ceremony performed, and review draft minutes and mentoring tasks. For live use, the physical meeting and subsequent open-lodge approval remain authoritative. The current pilot lacks the combined pre-approval review pack and linked next-meeting approval journey; continue those steps through existing correspondence until W06–W08 are implemented and accepted.
+6. After the meeting, confirm actual attendance and the ceremony performed. Review generated draft minutes and mentoring tasks. Save complete minutes, record the lodge's approval, then issue the approved PDF.
 7. Record external receipts/expenses and property details as needed.
 
 The pilot's hosting access is owner-private. A lodge invitation does not grant access through the outer site access policy, and it sends no email. Other officers must first be explicitly admitted to the pilot site, then accept their lodge invitation using the matching sign-in email. No additional audience is granted by deployment.
@@ -39,7 +37,7 @@ The pilot's hosting access is owner-private. A lodge invitation does not grant a
 ## Verification
 
 - TypeScript check passes.
-- 26 automated tests passed at the last implementation verification. They cover authentication/origin checks, tenant isolation, role expiry/revocation, concurrent update rollback, ceremony confirmation/idempotency, degree corrections, financial balancing/reversal, import atomicity, restricted member projections, property history, invitation binding, issued-PDF immutability, minutes approval, PDF pagination and CSV formula neutralization.
+- 22 automated tests pass. They cover authentication/origin checks, tenant isolation, role expiry/revocation, concurrent update rollback, ceremony confirmation/idempotency, degree corrections, financial balancing/reversal, import atomicity, restricted member projections, property history, invitation binding, issued-PDF immutability, minutes approval, PDF pagination and CSV formula neutralization.
 - Tests execute the real migration and SQL against Node's SQLite adapter; R2 object storage is simulated in memory. They are not a hosted multi-user acceptance test.
 - The production Worker build succeeds. Native deployment status separately establishes whether that artifact is live.
 - Browser QA exercised the read-only tour on a desktop and at a 390-pixel mobile width: navigation, document layout, live branding changes and member-entry dialog. The mobile check is a responsive-width browser test, not a physical iPhone/Safari certification.
@@ -58,8 +56,6 @@ Ledger posting is a record-keeping function, not payment processing or a complet
 
 ## Next development order
 
-The 16 November [delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md#next-delivery-sequence) supersedes the sequencing below: minutes review packs/approval, attendance-photo review and Gmail correspondence are the immediate workflow gaps. The following broader work remains pending.
-
 1. Complete owner/officer acceptance with separate accounts, real sample crest/document uploads and the Kingston secretary's full meeting workflow.
 2. Add full backup/restore and operational controls before historical migration.
 3. Implement structured ritual/attendance/engagement records, lodge-year/recess rules, document amendments and mentee-module requests.
@@ -69,7 +65,7 @@ The 16 November [delivery register](USER_JOURNEYS_AND_DELIVERY_REGISTER.md#next-
 
 ## Kingston calendar and branding update
 
-- Kingston No. 1933 EC defaults: first Wednesday at 19:00, recess in September and October, February Installation. Settings → Meeting calendar provides a year preview and editable rules for each lodge. New meetings suggest the next scheduled date; existing meetings and issued documents remain unchanged.
+- Kingston No. 1933 EC defaults: first Wednesday at 19:00, recess in August and September, February Installation. Settings → Meeting calendar provides a year preview and editable rules for each lodge. New meetings suggest the next scheduled date; existing meetings and issued documents remain unchanged.
 - The isolated crest, temple venue, greeting and dress wording were taken from the user-provided November 2026 summons. The original PDF, Word document, full extracted text, member lists, candidate details and personal contacts are not included in source control or deployment packages.
 - Uploaded custom logos take precedence. Removing a crest is saved explicitly. Other lodge identities retain their own branding and calendar settings.
 - Validation: 26 automated tests, TypeScript, and desktop calendar/branding review. Real signed-in multi-user acceptance remains a pilot follow-up.

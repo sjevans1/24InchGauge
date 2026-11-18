@@ -2,6 +2,8 @@
 
 Last updated: 18 November 2026 (Jamaica)
 
+**Current calendar correction:** the Secretary explicitly confirmed August and September recess on 18 November. This supersedes all earlier September/October references below; those remain only as dated history. First Wednesday and February Installation remain unchanged.
+
 This is the living delivery record for 24 Inch Gauge. Update it whenever requirements, implementation or acceptance evidence change. It records the current baseline; it is not an automatic monitoring service. Read alongside [Pilot status](PILOT_STATUS.md) and the [Master blueprint](MASTER_DEVELOPMENT_BLUEPRINT.md).
 
 ## Active checkpoint — 18 November 2026
@@ -94,7 +96,7 @@ Status vocabulary: **Implemented / not user-accepted**, **Partial**, **Not built
 
 | ID | Work item | Current status | Remaining work / completion evidence |
 | --- | --- | --- | --- |
-| W01 | Lodge identity and calendar | Implemented / not user-accepted | Kingston first Wednesday, 19:00, September/October recess, February Installation; verify with Secretary in app. |
+| W01 | Lodge identity and calendar | Implemented / not user-accepted | Kingston first Wednesday, 19:00, August/September recess, February Installation; Secretary confirmed recess on 18 November. Existing meetings/documents remain intact. |
 | W02 | Summons preparation | Implemented / not user-accepted | Review a real proposed summons for content, layout and recipient-ready PDF. |
 | W03 | Gmail correspondence and distribution | Not built | Authorised lodge mailbox, recipient review, versioned attachments, explicit send, failure/retry and distribution audit; controlled test recipients before membership mailing. |
 | W04 | Attendance book photo ingestion | Not built | Multi-page meeting uploads, extraction proposals, matching, duplicates, visitors, manual review, source references, confirmation and corrections. |
@@ -186,3 +188,21 @@ Further private examples were inspected: combined minutes packs, Treasurer repor
 Data reconciliation and template controls: private references now include an actual October regular-meeting minutes pack, making the previously flagged recess discrepancy material rather than just old stationery. Ask the Secretary to confirm the intended annual recess policy; retain existing settings until clarified. Do not erase the documented historical meeting. Older templates also contain carried-forward headings and officer references; generate dates, current officers and ceremony details from reviewed records, and flag unresolved placeholders before issue.
 
 Acceptance sample for pack assembly: the supplied November pack contains minutes, a visitor appendix, a multi-page Almoner report, a two-page Treasurer report and a Charity Steward report. The October pack includes further annex material. Private samples may be used locally for validation but must not be committed as test fixtures. None of these records has been imported or automatically marked approved, paid, initiated, raised or elected.
+
+
+## Secretary's District and UGLE returns — 18 November 2026
+
+Private annual-return spreadsheets, PDFs, instructions, legacy Word forms, installation returns and a compliance certificate were reviewed. Legacy .doc references were converted locally for reading, outside the repository. These are historical source examples, not verification of current constitutional requirements, rates, deadlines or submission channels.
+
+| ID | Workflow | Remaining implementation |
+| --- | --- | --- |
+| W25 | District annual membership return | Not built. Generate a year-end snapshot from effective-dated membership history, including initiation, joining/rejoining, honorary status, death, resignation, exclusion and recorded cessation. Separate rates and payable amounts from individual member dues receipts. Include members relevant to the return period even when no longer active today; calculate using reviewed rules for that authority/year. |
+| W26 | District installation return | Not built. Capture Master/Wardens, actual investiture dates, meetings held, verified attendance, Past Masters' service lodges/years, seniority, paid-through dates and first-time omissions with reasons/dates. Preserve source evidence and reviewed eligibility; do not infer voting eligibility from an office label. |
+| W27 | UGLE installation return | Not built. Support versioned old/new forms, prescribed versus actual dates, Master's qualifying service or dispensation evidence, invested officers/absence reasons, later investiture updates, officer contacts, Secretary changes and required signatures. Generate the selected current form without silently combining requirements from different versions. |
+| W28 | Compliance certificate and return review | Not built. Prepare review exceptions from arrears/history and record Master, Secretary and Treasurer certification. Require human verification against the applicable rules; no automatic cessation, exclusion, signature or compliance declaration from an imported balance alone. |
+| W29 | Submission register | Not built. Track authority, return type, reporting period, template/rule version, due date, prepared/reviewed/signed/submitted/acknowledged/corrected states, attachment manifest, remittance evidence and delivery method. A generated document is neither signed nor submitted. Support continued-Master/no-new-installation cases when required by the selected authority's reviewed instructions. |
+
+Source reconciliation: at least one workbook filename names a different year from its internal heading. Completed installation examples also contain prescribed-date versus actual-date differences and historical form revisions. Require explicit period and form selection; reconcile totals, names, dates and eligibility before import. Historical instructions discuss fees, honorary treatment, registration prerequisites, arrears and cessation, but these must remain effective-dated and authority-specific, not hard-coded current rules for every constitution.
+
+The Secretary's explicit August/September confirmation resolves the earlier calendar ambiguity. The calendar correction updates the Kingston default and upgrades the former saved September/October recess once, while preserving unrelated custom calendars, existing meetings and issued documents. Later explicit calendar edits remain respected.
+

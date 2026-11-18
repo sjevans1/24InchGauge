@@ -23,6 +23,7 @@ export type Lodge = {
   plan: "Complimentary pilot";
   brand: Brand;
   schedule?: MeetingSchedule;
+  calendarDefaultsVersion?: number;
 };
 export type Member = {
   id: string;
@@ -183,6 +184,14 @@ export const defaultBrand: Brand = {
 export function emptyState(lodge: Lodge): State {
   lodge = structuredClone(lodge);
   if (isKingston(lodge)) {
+    // Correct the former Kingston recess once; preserve later Secretary edits.
+    if ((lodge.calendarDefaultsVersion ?? 0) < 1) {
+      if (lodge.schedule?.recessMonths.length === 2 &&
+          lodge.schedule.recessMonths.includes(9) && lodge.schedule.recessMonths.includes(10)) {
+        lodge.schedule.recessMonths = [8, 9];
+      }
+      lodge.calendarDefaultsVersion = 1;
+    }
     if (lodge.venue === "Freemasons’ Building, Barbados Avenue, Kingston")
       lodge.venue = kingstonVenue;
     if (lodge.brand.presetLogo === undefined)

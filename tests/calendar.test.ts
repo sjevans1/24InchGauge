@@ -19,7 +19,7 @@ const secretary: Access = {
   memberId: null,
   endsAt: null,
 };
-test("Kingston calendar meets first Wednesday except September and October, including leap years", () => {
+test("Kingston calendar meets first Wednesday except August and September, including leap years", () => {
   for (const year of [2026, 2027, 2028, 2032]) {
     const dates = annualMeetings(kingstonSchedule, year);
     assert.equal(dates.length, 10);
@@ -27,14 +27,14 @@ test("Kingston calendar meets first Wednesday except September and October, incl
       const d = new Date(m.date + "T12:00:00Z");
       assert.equal(d.getUTCDay(), 3);
       assert.ok(d.getUTCDate() <= 7);
-      assert.ok(![8, 9].includes(d.getUTCMonth()));
+      assert.ok(![7, 8].includes(d.getUTCMonth()));
       assert.equal(m.type, d.getUTCMonth() === 1 ? "Installation" : "Regular");
     }
   }
   assert.equal(annualMeetings(kingstonSchedule, 2027)[1].date, "2027-02-03");
   assert.equal(
     nextMeeting(sampleState().lodge, "2026-08-06")?.date,
-    "2026-11-04",
+    "2026-10-07",
   );
   assert.equal(
     nextMeeting(sampleState().lodge, "2026-12-03")?.date,
@@ -107,4 +107,18 @@ test("Kingston extracted crest renders in a PDF", async () => {
     true,
   );
   assert.ok(pdf.length > 10000);
+});
+
+test("recess correction upgrades old Kingston settings once without rewriting meeting history", () => {
+  const original = sampleState();
+  const legacy = {...original.lodge, calendarDefaultsVersion: undefined, schedule: {...kingstonSchedule, recessMonths:[9,10]}};
+  const migrated = emptyState(legacy).lodge;
+  assert.deepEqual(migrated.schedule?.recessMonths,[8,9]);
+  assert.deepEqual(legacy.schedule.recessMonths,[9,10]);
+  assert.equal(nextMeeting(migrated,"2026-07-02")?.date,"2026-10-07");
+  const explicit = {...migrated, schedule:{...kingstonSchedule,recessMonths:[9,10]}};
+  assert.deepEqual(emptyState(explicit).lodge.schedule?.recessMonths,[9,10]);
+  const other = {...legacy,name:"Another Lodge"};
+  assert.deepEqual(emptyState(other).lodge.schedule?.recessMonths,[9,10]);
+  assert.deepEqual(emptyState({...legacy,schedule:{...kingstonSchedule,recessMonths:[12]}}).lodge.schedule?.recessMonths,[12]);
 });

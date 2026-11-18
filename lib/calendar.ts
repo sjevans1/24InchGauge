@@ -11,7 +11,7 @@ export const kingstonVenue =
 export const kingstonSchedule: MeetingSchedule = {
   weekday: 3,
   ordinal: 1,
-  recessMonths: [9, 10],
+  recessMonths: [8, 9],
   installationMonth: 2,
   time: "19:00",
 };
